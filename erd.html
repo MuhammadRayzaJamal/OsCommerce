@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ERD osCommerce</title>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 0; padding: 16px; background: #fff; color: #222; }
+  h1 { font-size: 20px; }
+  p { color: #555; max-width: 900px; }
+  .mermaid { overflow: auto; }
+</style>
+</head>
+<body>
+<h1>ERD oscommerce_db</h1>
+<p>Relasi osCommerce tidak memakai foreign key di database, jadi relasi di bawah diambil dari konvensi nama kolom. Tabel sistem (sessions, configuration, hooks, dll.) tidak digambar.</p>
+<pre class="mermaid">
+erDiagram
+  customers ||--o{ address_book : "customers_id"
+  customers ||--|| customers_info : "customers_info_id"
+  customers ||--o{ orders : "customers_id"
+  customers ||--o{ customers_basket : "customers_id"
+  customers ||--o{ reviews : "customers_id"
+  customers ||--o{ testimonials : "customers_id"
+  customers ||--o{ products_notifications : "customers_id"
+  customers ||--o{ dw_coupon_redemptions : "customers_id"
+
+  customers_basket ||--o{ customers_basket_attributes : "customers_id + products_id"
+
+  countries ||--o{ address_book : "entry_country_id"
+  zones ||--o{ address_book : "entry_zone_id"
+  countries ||--o{ zones : "zone_country_id"
+  address_format ||--o{ countries : "address_format_id"
+
+  orders ||--o{ orders_products : "orders_id"
+  orders ||--o{ orders_total : "orders_id"
+  orders ||--o{ orders_status_history : "orders_id"
+  orders ||--o{ dw_coupon_redemptions : "orders_id"
+  orders ||--o| dwellco_sync_orders : "osc_order_id"
+  orders_status ||--o{ orders_status_history : "orders_status_id"
+  orders_status ||--o{ orders : "orders_status"
+  orders_products ||--o{ orders_products_attributes : "orders_products_id"
+  orders_products ||--o{ orders_products_download : "orders_products_id"
+  products ||--o{ orders_products : "products_id"
+
+  dw_coupons ||--o{ dw_coupon_redemptions : "coupon_id"
+
+  products ||--o{ products_description : "products_id"
+  products ||--o{ products_images : "products_id"
+  products ||--o{ products_to_categories : "products_id"
+  products ||--o{ products_attributes : "products_id"
+  products ||--o{ products_notifications : "products_id"
+  products ||--o{ reviews : "products_id"
+  products ||--o{ specials : "products_id"
+  products ||--o{ customers_basket : "products_id"
+  products ||--o| dwellco_sync_products : "osc_id"
+  manufacturers ||--o{ products : "manufacturers_id"
+  manufacturers ||--o{ manufacturers_info : "manufacturers_id"
+  tax_class ||--o{ products : "products_tax_class_id"
+  tax_class ||--o{ tax_rates : "tax_class_id"
+  geo_zones ||--o{ tax_rates : "tax_zone_id"
+  geo_zones ||--o{ zones_to_geo_zones : "geo_zone_id"
+  zones ||--o{ zones_to_geo_zones : "zone_id"
+
+  categories ||--o{ categories : "parent_id"
+  categories ||--o{ categories_description : "categories_id"
+  categories ||--o{ products_to_categories : "categories_id"
+  categories ||--o| dwellco_sync_categories : "osc_id"
+
+  products_options ||--o{ products_attributes : "options_id"
+  products_options_values ||--o{ products_attributes : "options_values_id"
+  products_options ||--o{ products_options_values_to_products_options : "products_options_id"
+  products_options_values ||--o{ products_options_values_to_products_options : "products_options_values_id"
+  products_attributes ||--o| products_attributes_download : "products_attributes_id"
+
+  reviews ||--o{ reviews_description : "reviews_id"
+  testimonials ||--o{ testimonials_description : "testimonials_id"
+  languages ||--o{ products_description : "language_id"
+  languages ||--o{ categories_description : "language_id"
+  languages ||--o{ reviews_description : "languages_id"
+
+  administrators {
+    int id PK
+    string user_name
+    string user_password
+  }
+  customers {
+    int customers_id PK
+    string customers_firstname
+    string customers_lastname
+    string customers_email_address "dipakai sebagai username login"
+    string customers_password
+    int customers_default_address_id FK
+  }
+  customers_info {
+    int customers_info_id PK
+    datetime customers_info_date_account_created
+  }
+  address_book {
+    int address_book_id PK
+    int customers_id FK
+    int entry_country_id FK
+    int entry_zone_id FK
+  }
+  countries {
+    int countries_id PK
+    string countries_name
+    int address_format_id FK
+  }
+  zones {
+    int zone_id PK
+    int zone_country_id FK
+    string zone_name
+  }
+  address_format {
+    int address_format_id PK
+  }
+  customers_basket {
+    int customers_basket_id PK
+    int customers_id FK
+    string products_id FK
+    int customers_basket_quantity
+  }
+  customers_basket_attributes {
+    int customers_basket_attributes_id PK
+    int customers_id FK
+    string products_id FK
+  }
+  orders {
+    int orders_id PK
+    int customers_id FK
+    int orders_status FK
+    datetime date_purchased
+    string payment_method
+  }
+  orders_products {
+    int orders_products_id PK
+    int orders_id FK
+    int products_id FK
+    int products_quantity
+    decimal final_price
+  }
+  orders_products_attributes {
+    int orders_products_attributes_id PK
+    int orders_id FK
+    int orders_products_id FK
+  }
+  orders_products_download {
+    int orders_products_download_id PK
+    int orders_id FK
+    int orders_products_id FK
+  }
+  orders_total {
+    int orders_total_id PK
+    int orders_id FK
+    string class
+    decimal value
+  }
+  orders_status {
+    int orders_status_id PK
+    int language_id PK
+    string orders_status_name
+  }
+  orders_status_history {
+    int orders_status_history_id PK
+    int orders_id FK
+    int orders_status_id FK
+  }
+  products {
+    int products_id PK
+    string products_model
+    decimal products_price
+    int manufacturers_id FK
+    int products_tax_class_id FK
+  }
+  products_description {
+    int products_id PK
+    int language_id PK
+    string products_name
+  }
+  products_images {
+    int id PK
+    int products_id FK
+    string image
+  }
+  products_to_categories {
+    int products_id PK
+    int categories_id PK
+  }
+  products_attributes {
+    int products_attributes_id PK
+    int products_id FK
+    int options_id FK
+    int options_values_id FK
+  }
+  products_attributes_download {
+    int products_attributes_id PK
+    string products_attributes_filename
+  }
+  products_options {
+    int products_options_id PK
+    int language_id PK
+  }
+  products_options_values {
+    int products_options_values_id PK
+    int language_id PK
+  }
+  products_options_values_to_products_options {
+    int products_options_values_to_products_options_id PK
+    int products_options_id FK
+    int products_options_values_id FK
+  }
+  products_notifications {
+    int products_id PK
+    int customers_id PK
+  }
+  specials {
+    int specials_id PK
+    int products_id FK
+    decimal specials_new_products_price
+  }
+  categories {
+    int categories_id PK
+    int parent_id FK
+  }
+  categories_description {
+    int categories_id PK
+    int language_id PK
+    string categories_name
+  }
+  manufacturers {
+    int manufacturers_id PK
+    string manufacturers_name
+  }
+  manufacturers_info {
+    int manufacturers_id PK
+    int languages_id PK
+  }
+  reviews {
+    int reviews_id PK
+    int products_id FK
+    int customers_id FK
+    int reviews_rating
+  }
+  reviews_description {
+    int reviews_id PK
+    int languages_id PK
+  }
+  testimonials {
+    int testimonials_id PK
+    int customers_id FK
+  }
+  testimonials_description {
+    int testimonials_id PK
+    int languages_id PK
+  }
+  tax_class {
+    int tax_class_id PK
+    string tax_class_title
+  }
+  tax_rates {
+    int tax_rates_id PK
+    int tax_zone_id FK
+    int tax_class_id FK
+    decimal tax_rate
+  }
+  geo_zones {
+    int geo_zone_id PK
+    string geo_zone_name
+  }
+  zones_to_geo_zones {
+    int association_id PK
+    int zone_id FK
+    int geo_zone_id FK
+  }
+  languages {
+    int languages_id PK
+    string code
+  }
+  dw_coupons {
+    int coupon_id PK
+    string code
+    string type
+    decimal amount
+  }
+  dw_coupon_redemptions {
+    int redemption_id PK
+    int coupon_id FK
+    int orders_id FK
+    int customers_id FK
+  }
+  dwellco_sync_orders {
+    int osc_order_id PK
+    string medusa_order_id
+  }
+  dwellco_sync_products {
+    string medusa_id PK
+    int osc_id FK
+  }
+  dwellco_sync_categories {
+    string medusa_id PK
+    int osc_id FK
+  }
+</pre>
+<h2>Contoh data dummy</h2>
+<p>Tabel <b>customers</b> di database saat ini kosong (0 baris). Data di bawah hanya contoh dummy, tidak ada di database. osCommerce tidak punya kolom username untuk pelanggan, jadi login memakai email. Tabel <b>administrators</b> punya <code>user_name</code>.</p>
+<h3>administrators</h3>
+<table border="1" cellpadding="6" cellspacing="0">
+  <tr><th>id</th><th>user_name</th><th>user_password</th></tr>
+  <tr><td>1</td><td>admin</td><td>(hash phpass)</td></tr>
+</table>
+<h3>customers (dummy)</h3>
+<table border="1" cellpadding="6" cellspacing="0">
+  <tr><th>customers_id</th><th>customers_firstname</th><th>customers_lastname</th><th>customers_email_address (username)</th><th>customers_telephone</th></tr>
+  <tr><td>1</td><td>Budi</td><td>Santoso</td><td>budi.santoso@example.com</td><td>081200000001</td></tr>
+  <tr><td>2</td><td>Siti</td><td>Rahayu</td><td>siti.rahayu@example.com</td><td>081200000002</td></tr>
+  <tr><td>3</td><td>Andi</td><td>Wijaya</td><td>andi.wijaya@example.com</td><td>081200000003</td></tr>
+  <tr><td>4</td><td>Dewi</td><td>Lestari</td><td>dewi.lestari@example.com</td><td>081200000004</td></tr>
+  <tr><td>5</td><td>Rizky</td><td>Pratama</td><td>rizky.pratama@example.com</td><td>081200000005</td></tr>
+</table>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({ startOnLoad: true, maxTextSize: 200000, er: { useMaxWidth: false } });</script>
+</body>
+</html>
