@@ -38,7 +38,7 @@ CREATE TABLE `address_book` (
   `entry_zone_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`address_book_id`),
   KEY `idx_address_book_customers_id` (`customers_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,6 +47,7 @@ CREATE TABLE `address_book` (
 
 LOCK TABLES `address_book` WRITE;
 /*!40000 ALTER TABLE `address_book` DISABLE KEYS */;
+INSERT INTO `address_book` VALUES (1,1,'m',NULL,'Budi','Santoso','Jl. Melati No. 12',NULL,'40111','Bandung',NULL,100,0),(2,2,'f',NULL,'Siti','Rahayu','Jl. Kenanga No. 7',NULL,'10110','Jakarta',NULL,100,0),(3,3,'m',NULL,'Andi','Wijaya','Jl. Mawar No. 3',NULL,'60111','Surabaya',NULL,100,0),(4,4,'f',NULL,'Dewi','Lestari','Jl. Anggrek No. 21',NULL,'55281','Yogyakarta',NULL,100,0),(5,5,'m',NULL,'Rizky','Pratama','Jl. Dahlia No. 9',NULL,'20111','Medan',NULL,100,0);
 /*!40000 ALTER TABLE `address_book` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -383,7 +384,7 @@ CREATE TABLE `customers` (
   `customers_newsletter` char(1) DEFAULT NULL,
   PRIMARY KEY (`customers_id`),
   UNIQUE KEY `uq_customers_email_address` (`customers_email_address`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -392,6 +393,7 @@ CREATE TABLE `customers` (
 
 LOCK TABLES `customers` WRITE;
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
+INSERT INTO `customers` VALUES (1,'m','Budi','Santoso','1990-03-12 00:00:00','budi.santoso@example.com',1,'081200000001',NULL,'$P$DVWRkvDTXtei7jpXimp0M7Sa4g5t1/1','0'),(2,'f','Siti','Rahayu','1993-07-21 00:00:00','siti.rahayu@example.com',2,'081200000002',NULL,'$P$DVWRkvDTXtei7jpXimp0M7Sa4g5t1/1','0'),(3,'m','Andi','Wijaya','1988-11-05 00:00:00','andi.wijaya@example.com',3,'081200000003',NULL,'$P$DVWRkvDTXtei7jpXimp0M7Sa4g5t1/1','0'),(4,'f','Dewi','Lestari','1995-01-30 00:00:00','dewi.lestari@example.com',4,'081200000004',NULL,'$P$DVWRkvDTXtei7jpXimp0M7Sa4g5t1/1','0'),(5,'m','Rizky','Pratama','1992-09-17 00:00:00','rizky.pratama@example.com',5,'081200000005',NULL,'$P$DVWRkvDTXtei7jpXimp0M7Sa4g5t1/1','0');
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -476,6 +478,7 @@ CREATE TABLE `customers_info` (
 
 LOCK TABLES `customers_info` WRITE;
 /*!40000 ALTER TABLE `customers_info` DISABLE KEYS */;
+INSERT INTO `customers_info` VALUES (1,NULL,1,'2026-10-29 21:42:25',NULL,0,NULL,NULL),(2,NULL,1,'2026-10-29 21:42:25',NULL,0,NULL,NULL),(3,NULL,1,'2026-10-29 21:42:25',NULL,0,NULL,NULL),(4,NULL,1,'2026-10-29 21:42:25',NULL,0,NULL,NULL),(5,NULL,1,'2026-10-29 21:42:25',NULL,0,NULL,NULL);
 /*!40000 ALTER TABLE `customers_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -850,7 +853,7 @@ CREATE TABLE `orders` (
   `currency_value` decimal(14,6) DEFAULT NULL,
   PRIMARY KEY (`orders_id`),
   KEY `idx_orders_customers_id` (`customers_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -859,6 +862,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
+INSERT INTO `orders` VALUES (1,1,'Budi Santoso',NULL,'Jl. Melati No. 12',NULL,'Bandung','40111',NULL,'Indonesia','081200000001','budi.santoso@example.com',1,'Budi Santoso',NULL,'Jl. Melati No. 12',NULL,'Bandung','40111',NULL,'Indonesia',1,'Budi Santoso',NULL,'Jl. Melati No. 12',NULL,'Bandung','40111',NULL,'Indonesia',1,'Bayar di tempat (COD)',NULL,NULL,NULL,NULL,NULL,'2026-10-29 21:42:25',1,NULL,'IDR',1.000000),(2,2,'Siti Rahayu',NULL,'Jl. Kenanga No. 7',NULL,'Jakarta','10110',NULL,'Indonesia','081200000002','siti.rahayu@example.com',1,'Siti Rahayu',NULL,'Jl. Kenanga No. 7',NULL,'Jakarta','10110',NULL,'Indonesia',1,'Siti Rahayu',NULL,'Jl. Kenanga No. 7',NULL,'Jakarta','10110',NULL,'Indonesia',1,'Bayar di tempat (COD)',NULL,NULL,NULL,NULL,NULL,'2026-10-29 21:42:25',2,NULL,'IDR',1.000000),(3,3,'Andi Wijaya',NULL,'Jl. Mawar No. 3',NULL,'Surabaya','60111',NULL,'Indonesia','081200000003','andi.wijaya@example.com',1,'Andi Wijaya',NULL,'Jl. Mawar No. 3',NULL,'Surabaya','60111',NULL,'Indonesia',1,'Andi Wijaya',NULL,'Jl. Mawar No. 3',NULL,'Surabaya','60111',NULL,'Indonesia',1,'Bayar di tempat (COD)',NULL,NULL,NULL,NULL,NULL,'2026-10-29 21:42:25',3,NULL,'IDR',1.000000);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -882,7 +886,7 @@ CREATE TABLE `orders_products` (
   PRIMARY KEY (`orders_products_id`),
   KEY `idx_orders_products_orders_id` (`orders_id`),
   KEY `idx_orders_products_products_id` (`products_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -891,6 +895,7 @@ CREATE TABLE `orders_products` (
 
 LOCK TABLES `orders_products` WRITE;
 /*!40000 ALTER TABLE `orders_products` DISABLE KEYS */;
+INSERT INTO `orders_products` VALUES (1,1,1,'TALENAN-KAYU-JATI-1','Talenan Kayu Jati',129000.0000,129000.0000,0.0000,1),(2,1,2,'GELAS-KACA-BENING-1','Gelas Kaca Bening',149000.0000,149000.0000,0.0000,2),(3,2,4,'PISAU-CHEF-BAJA-1','Pisau Chef Baja Jerman',175000.0000,175000.0000,0.0000,1),(4,3,6,'WAJAN-ANTI-LENGKET-1','Wajan Anti Lengket',189000.0000,189000.0000,0.0000,1),(5,3,3,'MANGKUK-SUP-EMAS-1','Mangkuk Sup List Emas',89000.0000,89000.0000,0.0000,2);
 /*!40000 ALTER TABLE `orders_products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -995,7 +1000,7 @@ CREATE TABLE `orders_status_history` (
   `comments` text DEFAULT NULL,
   PRIMARY KEY (`orders_status_history_id`),
   KEY `idx_orders_status_history_orders_id` (`orders_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1004,6 +1009,7 @@ CREATE TABLE `orders_status_history` (
 
 LOCK TABLES `orders_status_history` WRITE;
 /*!40000 ALTER TABLE `orders_status_history` DISABLE KEYS */;
+INSERT INTO `orders_status_history` VALUES (1,1,1,'2026-10-29 21:42:25',0,'Data dummy'),(2,2,2,'2026-10-29 21:42:25',0,'Data dummy'),(3,3,3,'2026-10-29 21:42:25',0,'Data dummy');
 /*!40000 ALTER TABLE `orders_status_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1024,7 +1030,7 @@ CREATE TABLE `orders_total` (
   `sort_order` int(11) NOT NULL,
   PRIMARY KEY (`orders_total_id`),
   KEY `idx_orders_total_orders_id` (`orders_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1033,6 +1039,7 @@ CREATE TABLE `orders_total` (
 
 LOCK TABLES `orders_total` WRITE;
 /*!40000 ALTER TABLE `orders_total` DISABLE KEYS */;
+INSERT INTO `orders_total` VALUES (1,1,'Sub-Total:','Rp 427.000',427000.0000,'ot_subtotal',1),(2,1,'Ongkir:','Rp 20.000',20000.0000,'ot_shipping',2),(3,1,'Total:','Rp 447.000',447000.0000,'ot_total',3),(4,2,'Sub-Total:','Rp 175.000',175000.0000,'ot_subtotal',1),(5,2,'Ongkir:','Rp 20.000',20000.0000,'ot_shipping',2),(6,2,'Total:','Rp 195.000',195000.0000,'ot_total',3),(7,3,'Sub-Total:','Rp 367.000',367000.0000,'ot_subtotal',1),(8,3,'Ongkir:','Rp 20.000',20000.0000,'ot_shipping',2),(9,3,'Total:','Rp 387.000',387000.0000,'ot_total',3);
 /*!40000 ALTER TABLE `orders_total` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1688,7 +1695,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-10-29 21:40:36
+-- Dump completed on 2026-10-29 21:42:50
 -- MariaDB dump 10.19  Distrib 10.4.28-MariaDB, for osx10.10 (x86_64)
 --
 -- Host: localhost    Database: oscommerce_db
@@ -1788,4 +1795,4 @@ CREATE TABLE `administrators` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-10-29 21:40:36
+-- Dump completed on 2026-10-29 21:42:50
